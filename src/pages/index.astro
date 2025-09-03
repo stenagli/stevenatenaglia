@@ -19,27 +19,40 @@ const posts = (await getCollection('content')).sort(
 	</head>
 	<body>
 		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={post.id}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
+    <main class="max-w-4xl mx-auto px-4 py-12">
+      <section>
+        <ul class="space-y-10">
+          {
+            posts.map((post) => (
+              <li>
+                <a 
+                  href={post.id} 
+                  class="group block rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                >
+                  {post.data.heroImage && (
+                    <Image 
+                      width={720} 
+                      height={360} 
+                      src={post.data.heroImage} 
+                      alt="" 
+                      class="w-full h-48 object-cover group-hover:scale-[1.02] transition-transform"
+                    />
+                  )}
+                  <div class="p-5">
+                    <h2 class="text-2xl font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                      {post.data.title}
+                    </h2>
+                    <p class="mt-2 text-sm text-gray-500">
+                      <FormattedDate date={post.data.pubDate} />
+                    </p>
+                  </div>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </main>
 		<Footer />
 	</body>
 </html>
