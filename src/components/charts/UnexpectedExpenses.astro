@@ -1,0 +1,56 @@
+---
+const { lambdas } = Astro.props
+---
+<div>
+  <canvas class='unexpected-expenses-chart' data-lambdas={JSON.stringify(lambdas)}></canvas>
+</div>
+
+<script>
+  import Chart from 'chart.js/auto';
+
+  const canvases = document.querySelectorAll('.unexpected-expenses-chart');
+  for (const canvas of canvases) {
+    const lambdas = JSON.parse(canvas.dataset.lambdas);
+    const timeValues = [...Array(50).keys()].map(x => x * 0.1);  // t from 0 to 5 in steps
+    const colors = [
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 99, 132, 1)',
+      'rgba(255, 206, 86, 1)'
+    ];
+    const datasets = lambdas.map((lambda, i) => {
+      return {
+        label: `${lambda}`,
+        data: timeValues.map(t => Math.exp(-lambda * t)),
+        fill: false,
+        borderColor: colors[i],
+        borderWidth: 2,
+        pointRadius: 0,
+      };
+    });
+
+    const config = {
+      type: 'line',
+      data: {
+        labels: timeValues,
+        datasets: datasets
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'linear',
+            ticks: { stepSize: 1 },
+            title: { display: true, text: 'Time' }
+          },
+          y: { min: 0, max: 1, title: { display: true, text: 'Probability of no unexpected expenses' } }
+        },
+        responsive: true,
+        plugins: {
+          legend: { display: true }
+        }
+      }
+    };
+
+    // render chart in a canvas element with id 'myChart'
+    new Chart(canvas, config);
+  }
+</script>

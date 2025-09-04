@@ -1,0 +1,32 @@
+---
+title: 'Why Save Money?'
+description: 'Why and how to save money'
+pubDate: 'Sep 03 2025'
+---
+
+The value of money is in spending it, so it can seem counterintuitive to *not* spend money since that would imply the money now has no value. However, that saved money does serve a valuable purpose: it allows you to pay for unexpected expenses, turning what would be an emergency or a crisis into merely an annoyance. That can be very valuable for people.
+
+There are two ways unexpected expenses might occur:
+1. **Expenses increase unexpectedly**
+2. **Income decreases unexpectedly**
+
+### Expenses Increase Unexpectedly
+
+Unexpected expenses include things like your car breaking down, the water heater breaking, children painting something they shouldn't have, your cat "accidentally" breaking something you need, your dog eating something it shouldn't have and requiring veterinary care, or you yourself having an accident and requiring medical care.
+
+Most people think these kinds of events are rare and therefore not worth preparing for. The following graph shows how likely it is that you won't encounter any unexpected expenses as time goes on.
+
+import UnexpectedExpenses from '@components/charts/UnexpectedExpenses.astro'
+
+<UnexpectedExpenses lambdas={[1]} />
+
+As you can see, as time increases, the probability that you won't encounter any unexpected expenses decreases quickly and approaches zero. Therefore, it's a matter of *when* an unexpected expense occurs, not *if*.
+
+The above is even more pronounced if you have multiple sources of unexpected expenses, such as a car, a home, a child, and a pet. The graph below shows the probability of never running into unexpected expenses when you have 1, 2, 3, and 4 sources of unexpected expenses.
+
+<UnexpectedExpenses lambdas={[1, 2, 3, 4]} />
+
+As you can see, the probability of never encountering any unexpected expenses drops quickly as both time and the number of sources increases.
+
+
+### Income Decreases Unexpectedly
