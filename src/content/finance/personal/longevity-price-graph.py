@@ -1,10 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from config import a, b, k
+from config import Longevity
 
 p = np.linspace(1/8, 4, 500)
 
-longevity = 1 - np.exp(-k * b) * p ** (-k * a)
+longevity = Longevity(p)
 
 fig, ax = plt.subplots(figsize=(8, 5))
 ax.plot(p, longevity, color='navy', linewidth=2)
