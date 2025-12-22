@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from config import a, b
+from config import Quality
 
 x = np.linspace(1/8, 4, 500)
-y = (a * np.log(x) + b)
+y = Quality(x)
 
 fig, ax = plt.subplots(figsize=(8, 5))
 ax.plot(x, y, color='navy', linewidth=2)

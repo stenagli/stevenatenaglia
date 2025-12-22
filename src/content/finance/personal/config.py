@@ -17,3 +17,6 @@ def LongTermCost(p):
 minimum_long_term_cost_per_price = math.exp(-b / a) * (1 + a * k)**(1 / (a * k))
 
 maximum_quality_per_price = math.exp(1 - (b / a))
+
+def dQ_dp(p):
+    return a / p

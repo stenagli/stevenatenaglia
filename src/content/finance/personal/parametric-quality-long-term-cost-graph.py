@@ -20,13 +20,28 @@ ax.set_title('Parametric: Quality vs Long-term Cost (p as parameter)')
 cbar = plt.colorbar(sc, ax=ax)
 cbar.set_label('Relative price (1 = median price)')
 
+# Plot reference price points
+p_refs = np.array([0.5, 1.0, 2.0, 3.0])
+
+for pr in p_refs:
+    ax.scatter(
+        LongTermCost(pr),
+        Quality(pr),
+        color='black',
+        s=40,
+        zorder=5
+    )
+    ax.annotate(
+        f"p={pr:g}",
+        (LongTermCost(pr), Quality(pr)),
+        textcoords="offset points",
+        xytext=(6, 6),
+        fontsize=9
+    )
+
 # mark the cost-minimizing price
 p_L_opt = minimum_long_term_cost_per_price
 ax.scatter([LongTermCost(p_L_opt)], [Quality(p_L_opt)], color='red', s=60, label=f'Minimum Long-Term Cost={p_L_opt:.3f}')
-
-# mark the quality-per-long-term-price maximizing price
-p_Q_opt = maximum_quality_per_price
-ax.scatter([LongTermCost(p_Q_opt)], [Quality(p_Q_opt)], color='green', s=60, label=f'Maximum Quality per Price={p_Q_opt:.3f}')
 
 ax.set_aspect('equal', adjustable='box')
 

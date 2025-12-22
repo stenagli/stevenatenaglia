@@ -1,29 +1,95 @@
 ---
 title: Spending
 description: Spending
-pubDate: 2025-12-03
+pubDate: 2025-12-22
 ---
+
+I've always heard the conventional wisdom that paying more for higher quality items can be less expensive in the long run than buying cheaper items. There's the proverb "buy nice or buy twice,"  the ["boots theory"](https://en.wikipedia.org/wiki/Boots_theory) of economic inequality, and even a story I've heard about a mother and son going thrift shopping for boots: the son asks why they're shopping at a thrift store and the mother replies: "We're too poor to buy cheap things."
+
+I was curious if this is actually true, and if so at which price ranges it applies and how strong the effect is. More specifically, I wanted to see a graph of Long-Term Cost vs Price and also explore how expensive higher-quality items are using their Long-Term Cost instead of their upfront purchase Price.
+
+### The Model
+
+I couldn't find any data on Long-Term Cost vs Price, so I decided to break it down into smaller relationships which would hopefully be easier find data for or to model. 
+
+#### Longevity
+
+I first split Long-Term Cost vs Price into Long-Term Cost vs Longevity and Longevity vs Price. Specifically, I defined Long-Term Cost as Price divided by Longevity.
+
+#### Quality
+
+Still not finding any data relating Price to Longevity, I then split Longevity vs Price into Longevity vs Quality and Quality vs Price with the insight that it's not the Price per se that affects Longevity, but the Quality you can buy at that Price. Similarly there was no data on Quality, but at this point I thought I could just make some general assumptions about how Quality relates to Longevity and Price and see how those assumptions affected Long-Term Cost at different Prices. Importantly, note that the ability to apply the results of this investigation to actual purchasing decisions depends on how well the two Quality relationships fit the purchasing decisions you're making.
+
+#### Quality vs Price
+
+I decided to use a diminishing returns model for the amount of Quality you get as Price increases. More specifically, a Price of 1 represents the typical or median price for the type of item and I decided to give that Price a Quality of 3 (the important part is that Quality 1.5 is half as much Quality as Quality 3 and so on). Adding or subtracting 1 Quality would require doubling or halving (respectively) the Price; this makes the relationship logarithmic.
 
 import QualityPriceGraph from './quality-price-graph.svg'
 
 <QualityPriceGraph />
 
+#### Longevity vs Quality
+
+I decided to model Longevity such that a Longevity of 1 represents the maximum possible lifetime for the type of item. That way, a Longevity of 0.5 would represent half the maximum lifetime, and so on. I also chose a diminishing returns relationship between Quality and Longevity, with Longevity getting closer and closer to 1 (the maximum lifetime) as Quality increases.
+
 import LongevityQualityGraph from './longevity-quality-graph.svg'
 
 <LongevityQualityGraph />
+
+### Longevity vs Price
+
+Combining Longevity vs Quality and Quality vs Price gives Longevity vs Price:
 
 import LongevityPriceGraph from './longevity-price-graph.svg'
 
 <LongevityPriceGraph />
 
+### Long-Term Cost
+
+Similarly we can combine Longevity vs Price with our definition of Long-Term Cost (i.e. Price divided by Longevity) to get Long-Term Cost vs Price:
+
 import LongTermCostPriceGraph from './long-term-cost-price-graph.svg'
 
 <LongTermCostPriceGraph />
+
+Two things are interesting about this graph:
+
+1. The minimum Long-Term Cost is at a Price of around 0.3, or 30% of the typical or median price for the item. This is substantially lower than I initially thought: 30% of typical is not an especially high price, so it shows you don't actually have to spend an arm and a leg to minimize long-term costs.
+
+2. Paying slightly less than that Price results in Long-Term Costs skyrocketing, while increasing Price by the same amount results in a much smaller increase in Long-Term Cost. This means that  it's safer to err on the side of paying too much than paying too little when you're unsure where an item is on this graph.
+
+### Quality vs Long-Term Cost
+
+Of course, when you pay more for an item with higher long-term costs, you're also getting a higher quality item. So the question is: is the quality you're getting worth the increase in long-term costs you're paying? I set out to answer this by graphing Quality vs Long-Term Cost. 
 
 import ParametricQualityLongTermCostPriceGraph from './parametric-quality-long-term-cost-price-graph.svg'
 
 <ParametricQualityLongTermCostPriceGraph />
 
+Every point on the graph represents the Quality and Long-Term Cost values for a given Price. The Price of each point is represented by its color, with the colorbar on the right showing which colors correspond to which Prices. Select Price points are also marked on the graph to help visualize Price values.
+
+The point with the lowest Long-Term Cost is marked in red. For any Price lower than this, you're getting lower Quality and higher Long-Term Costs, so it's illogical to choose an item priced below the red point. For the Prices above it, we see a diminishing returns relationship between Quality and Long-Term Cost, somewhat similar in shape to the relationship between Quality and Price earlier.
+
+#### Slope of Quality vs Long-Term Cost
+
+*This section is more technical and can be skipped without losing the main conclusions.*
+
+To make the nature of the diminishing returns more clear, I also graphed the slope of Quality vs Long-Term Cost. This graph gives an idea of how much extra Quality you get per unit of Long-Term Cost at different price points.
+
 import SlopeQualityLongTermCostGraph from './slope-quality-long-term-cost-graph.svg'
 
 <SlopeQualityLongTermCostGraph />
+
+There's an asymptote at the Price with the lowest Long-Term Cost, with Quality gains per additional unit of Long-Term Cost very high just above that Price and attenuating as Price continues to increase.
+
+### Conclusions
+
+There are three main takeaways from this analysis:
+
+1. There is indeed a range of prices where paying more results in lower long-term costs. In the model this was prices below around 30% typical/median.
+
+2. The price with the lowest long-term costs is actually relatively low, around 30% of the typical/median price. So while it is indeed true that paying more can lower long-term cost, that point is reached at relatively low prices. So as long as you avoid ultra-low priced items, you can rest assured that you're getting good long-term costs. In fact, paying more than 30% typical/median price in the model shows long-term costs increasing.
+
+3. A diminishing returns relationship between Quality and Long-Term Cost exists above that point, similar to the diminishing returns relationship between Quality and Price. So once you're above the price point where paying more decreases long-term costs, considering long-term costs doesn't fundamentally change the shape of the relationship between spending and Quality.
+
+Again, these conclusions are based on the Longevity vs Quality and Quality vs Price graphs above. They shouldn't be used for item categories that do not have those relationships, nor should the precise numbers be used (such as calculating exactly 30% of the typical/median price for every purchase decision). This analysis merely demonstrates that the conventional wisdom that paying more can save money in the long run is likely true, but only at ultra-low prices.
