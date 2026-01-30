@@ -1,0 +1,44 @@
+---
+title: Time Horizon
+description: Effect of Time Horizon on Expected Return and Risk
+pubDate: 2026-01-30
+---
+
+Annual stock returns are inherently uncertain, with returns becoming less and less likely the farther they are from the average return. This post explores how the uncertainty of those annual returns changes as you invest for more than one year.
+
+import TerminalWealthFan from './terminal_wealth_fan.svg';
+
+<TerminalWealthFan />
+
+import CAGRGraph from './cagr_funnel.svg';
+
+<CAGRGraph />
+
+import LossProbability from './loss_probability.svg';
+
+<LossProbability />
+
+
+
+### Annualized Return
+If a $1000 investment grew to $1200 over 3 years, that means it returned 20% over 3 years.
+We can then ask: how much is that return *per year*?
+In other words, if each of the three years had the same annual return, what would that annual return be so that it results in a return of 20% over 3 years?
+
+The answer is called the **annualized return** or **CAGR** (**C**umulative **A**nnual **G**rowth **R**ate).
+
+### Data
+The data in the graph shows a basic visualization of all annualized returns for the given number of years.
+For example, for 5 'Years Invested', all five-year returns were computed on a rolling monthly basis: January 1871-January 1876, February 1871-February 1876, March 1871-March 1876, ..., January 2021-January 2026.
+Three of those annual returns were then graphed: the one where 90% of the returns were lower than it, the one where 50% of the returns were lower than it, and the one where only 10% of the returns were lower than it.
+
+These data give an idea of how spread out the historical annual returns were for different numbers of years invested.
+For example, after 1 year invested, 80% of the annual returns were between 25.5% and -18.3%.
+After 5 years invested, however, 80% of the annual returns were between 12.1% and -6.5%.
+
+### Conclusion
+This shows how the risk of stock investments decreases as you invest for more years, at least historically.
+
+### Sources
+S&P 500 data from http://www.econ.yale.edu/~shiller/data.htm
+Code used to generate this post: https://github.com/stenagli/stevenatenaglia/tree/main/src/content/finance/investing
