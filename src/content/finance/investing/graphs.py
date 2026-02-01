@@ -27,28 +27,34 @@ cagr_results = {}
 terminal_results = {}
 loss_probs = {}
 
+result_keys = ['p0','p12.5','p25','p50','p75','p87.5','p100']
 for h in horizons:
     horizon_months = h * 12
     rlg = rolling_log_growth(cumsum_log, horizon_months)
 
-    percentiles = np.percentile(rlg, [10, 50, 90])
-    terminal_results[h] = dict(zip(['p10','p50','p90'], np.exp(percentiles)))
-    cagr_results[h] = dict(zip(['p10','p50','p90'], np.exp(percentiles / h) - 1))
+    percentiles = np.percentile(rlg, [0, 12.5, 25, 50, 75, 87.5, 100])
+    terminal_results[h] = dict(zip(result_keys, np.exp(percentiles)))
+    cagr_results[h] = dict(zip(result_keys, np.exp(percentiles / h) - 1))
     loss_probs[h] = (rlg < 0).mean()
 
-df = pd.DataFrame(cagr_results).T.mul(100).round(1) # Transpose for years as x-axis
+df_cagr = pd.DataFrame(cagr_results).T.mul(100).round(1) # Transpose for years as x-axis
 df_terminal = pd.DataFrame(terminal_results).T
 df_loss = pd.Series(loss_probs)
 
 
-# Create the funnel chart
-plt.figure(figsize=(10, 6))
-years = df.index  # [1,3,5,10,20,30]
-plt.plot(years, df['p90'], 'b--', label='90th percentile (gains)', linewidth=3, marker='^')
-plt.plot(years, df['p50'], 'g-', label='50th percentile (median)', linewidth=3, marker='s') 
-plt.plot(years, df['p10'], 'r--', label='10th percentile (losses)', linewidth=3, marker='o')
-plt.fill_between(years, df['p90'], df['p10'], alpha=0.2, color='gray', label='80% range')
+def plot_percentiles(plt, df):
+    plt.figure(figsize=(10, 6))
+    years = df.index  # [1,3,5,10,20,30]
+    plt.plot(years, df[result_keys[5]], 'g--', label='87.5th percentile', linewidth=3, marker='^')
+    plt.plot(years, df[result_keys[4]], 'c--', label='75th percentile', linewidth=3, marker='o')
+    plt.plot(years, df[result_keys[3]], 'b-', label='50th percentile', linewidth=3, marker='s')
+    plt.plot(years, df[result_keys[2]], 'm--', label='25th percentile', linewidth=3, marker='o')
+    plt.plot(years, df[result_keys[1]], 'r--', label='12.5th percentile', linewidth=3, marker='v')
+    plt.fill_between(years, df[result_keys[0]], df[result_keys[6]], alpha=0.2, color='gray')
 
+
+# Create the funnel chart
+plot_percentiles(plt, df_cagr)
 plt.title('Time Horizon Funnel: 150+ Years S&P 500 Returns', fontsize=16, fontweight='bold')
 plt.xlabel('Years Invested', fontsize=12)
 plt.ylabel('Annualized Return (CAGR %)', fontsize=12)
@@ -56,17 +62,11 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('cagr_funnel.svg', format='svg', bbox_inches='tight')
-#plt.show()
+plt.show()
 
 
 # Terminal Fan
-plt.figure(figsize=(10, 6))
-years = df_terminal.index
-
-plt.plot(years, df_terminal['p90'], '--', linewidth=3, label='90th percentile')
-plt.plot(years, df_terminal['p50'], '-', linewidth=3, label='Median')
-plt.plot(years, df_terminal['p10'], '--', linewidth=3, label='10th percentile')
-plt.fill_between(years, df_terminal['p90'], df_terminal['p10'], alpha=0.2, label='80% range')
+plot_percentiles(plt, df_terminal)
 
 plt.title('Terminal Wealth Fan (Starting from $1)', fontsize=16, fontweight='bold')
 plt.xlabel('Years Invested', fontsize=12)
@@ -75,7 +75,7 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('terminal_wealth_fan.svg', format='svg', bbox_inches='tight')
-#plt.show()
+plt.show()
 
 
 # Loss Probability
@@ -88,4 +88,4 @@ plt.ylabel('Probability of Loss (%)', fontsize=12)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('loss_probability.svg', format='svg', bbox_inches='tight')
-#plt.show()
+plt.show()
