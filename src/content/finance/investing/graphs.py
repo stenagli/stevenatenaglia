@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 # Load Shiller S&P 500 data
 # http://www.econ.yale.edu/~shiller/data.htm
 df = pd.read_excel('ie_data.xls', sheet_name='Data', skiprows=7)
-df['date'] = pd.to_datetime(df['Date'])
-df['total_return'] = df['Price'] + df['Dividend']  # Price + div index
+print(df.columns.tolist())
+df = df.dropna(subset=['Price.1'])  # drop trailing empty row
 
-monthly_returns = df['total_return'].ffill().pct_change(fill_method=None).dropna()
+monthly_returns = df['Price.1'].pct_change().dropna()
 returns = monthly_returns.to_numpy()
 
 # Work in log space to improve numerical stability
@@ -27,12 +27,12 @@ cagr_results = {}
 terminal_results = {}
 loss_probs = {}
 
-result_keys = ['p0','p12.5','p25','p50','p75','p87.5','p100']
+result_keys = ['p0','p25','p50','p75','p100']
 for h in horizons:
     horizon_months = h * 12
     rlg = rolling_log_growth(cumsum_log, horizon_months)
 
-    percentiles = np.percentile(rlg, [0, 12.5, 25, 50, 75, 87.5, 100])
+    percentiles = np.percentile(rlg, [0, 25, 50, 75, 100])
     terminal_results[h] = dict(zip(result_keys, np.exp(percentiles)))
     cagr_results[h] = dict(zip(result_keys, np.exp(percentiles / h) - 1))
     loss_probs[h] = (rlg < 0).mean()
@@ -45,12 +45,10 @@ df_loss = pd.Series(loss_probs)
 def plot_percentiles(plt, df):
     plt.figure(figsize=(10, 6))
     years = df.index  # [1,3,5,10,20,30]
-    plt.plot(years, df[result_keys[5]], 'g--', label='87.5th percentile', linewidth=3, marker='^')
-    plt.plot(years, df[result_keys[4]], 'c--', label='75th percentile', linewidth=3, marker='o')
-    plt.plot(years, df[result_keys[3]], 'b-', label='50th percentile', linewidth=3, marker='s')
-    plt.plot(years, df[result_keys[2]], 'm--', label='25th percentile', linewidth=3, marker='o')
-    plt.plot(years, df[result_keys[1]], 'r--', label='12.5th percentile', linewidth=3, marker='v')
-    plt.fill_between(years, df[result_keys[0]], df[result_keys[6]], alpha=0.2, color='gray')
+    plt.plot(years, df[result_keys[3]], 'g--', label='75th percentile', linewidth=3, marker='o')
+    plt.plot(years, df[result_keys[2]], 'b-', label='50th percentile', linewidth=3, marker='s')
+    plt.plot(years, df[result_keys[1]], 'r--', label='25th percentile', linewidth=3, marker='o')
+    plt.fill_between(years, df[result_keys[0]], df[result_keys[4]], alpha=0.2, color='gray')
 
 
 # Create the funnel chart
