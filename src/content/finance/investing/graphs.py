@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 # Load Shiller S&P 500 data
 # http://www.econ.yale.edu/~shiller/data.htm
 df = pd.read_excel('ie_data.xls', sheet_name='Data', skiprows=7)
-print(df.columns.tolist())
 df = df.dropna(subset=['Price.1'])  # drop trailing empty row
 
 monthly_returns = df['Price.1'].pct_change().dropna()
