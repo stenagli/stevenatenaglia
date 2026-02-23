@@ -6,7 +6,6 @@ import re
 # Load Shiller S&P 500 data
 # http://www.econ.yale.edu/~shiller/data.htm
 df = pd.read_excel('ie_data.xls', sheet_name='Data', skiprows=7)
-print(df.columns.tolist())
 df = df.dropna(subset=['Price.1'])  # drop trailing empty row
 
 monthly_returns = df['Price.1'].pct_change().dropna()
@@ -70,7 +69,6 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('cagr_funnel.svg', format='svg', bbox_inches='tight')
 make_svg_responsive('cagr_funnel.svg')
-plt.show()
 
 
 # Terminal Fan
@@ -84,7 +82,6 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('terminal_wealth_fan.svg', format='svg', bbox_inches='tight')
 make_svg_responsive('terminal_wealth_fan.svg')
-plt.show()
 
 
 # Loss Probability
@@ -98,4 +95,3 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('loss_probability.svg', format='svg', bbox_inches='tight')
 make_svg_responsive('loss_probability.svg')
-plt.show()
