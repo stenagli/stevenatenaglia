@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import re
 
 # Load Shiller S&P 500 data
 # http://www.econ.yale.edu/~shiller/data.htm
@@ -51,6 +52,14 @@ def plot_percentiles(plt, df):
     plt.fill_between(years, df[result_keys[0]], df[result_keys[4]], alpha=0.2, color='gray')
 
 
+def make_svg_responsive(filename):
+    with open(filename, 'r') as f:
+        content = f.read()
+    content = re.sub(r'width="[\d.]+pt" height="[\d.]+pt"', '', content, count=1)
+    with open(filename, 'w') as f:
+        f.write(content)
+
+
 # Create the funnel chart
 plot_percentiles(plt, df_cagr)
 plt.title('Time Horizon Funnel: 150+ Years S&P 500 Returns', fontsize=16, fontweight='bold')
@@ -60,6 +69,7 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('cagr_funnel.svg', format='svg', bbox_inches='tight')
+make_svg_responsive('cagr_funnel.svg')
 plt.show()
 
 
@@ -73,6 +83,7 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('terminal_wealth_fan.svg', format='svg', bbox_inches='tight')
+make_svg_responsive('terminal_wealth_fan.svg')
 plt.show()
 
 
@@ -86,4 +97,5 @@ plt.ylabel('Probability of Loss (%)', fontsize=12)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('loss_probability.svg', format='svg', bbox_inches='tight')
+make_svg_responsive('loss_probability.svg')
 plt.show()
