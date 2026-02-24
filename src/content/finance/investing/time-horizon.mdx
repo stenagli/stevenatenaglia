@@ -1,7 +1,7 @@
 ---
-title: Time Horizon
-description: Effect of Time Horizon on Expected Return and Risk
-pubDate: 2026-02-23
+title: How Time Horizon Affects Investment Returns
+description: What 150 years of S&P 500 data shows about investing time horizons
+pubDate: 2026-02-24
 ---
 
 In this post we'll look at the uncertainty of stock returns over time periods longer than one year and how the length of time invested affects the uncertainty of returns.
@@ -13,7 +13,7 @@ import TerminalWealthFan from './terminal_wealth_fan.svg';
 
 <TerminalWealthFan />
 
-The graph above shows the distribution of how much an investment in the S&P 500 grew over different timeframes. 
+The graph above shows the distribution of how much an investment in the S&P 500 grew over different timeframes[^1]. 
 For example, 5 'Years Invested' visualizes all five-year periods on a rolling monthly basis (January 1871-January 1876, February 1871-February 1876, March 1871-March 1876, ..., January 2021-January 2026) using a five-number summary:
 * All returns were within the grey shaded area, such that the top and bottom edges of the area represent the highest and lowest returns over that time period, respectively.
 * The blue line represents the 50th percentile, or the median, of the returns. Half of the returns were below this line, and half of the returns were above this line.
@@ -29,6 +29,20 @@ import CAGRGraph from './cagr_funnel.svg';
 
 <CAGRGraph />
 
+| Years Invested | Worst | 25th percentile | Median | 75th percentile | Best |
+|----------------|-------|-----------------|--------|-----------------|------|
+| 1  | -58% | -3% | 9%  | 20% | 151% |
+| 2  | -44% | 0%  | 8%  | 16% | 54%  |
+| 3  | -35% | 2%  | 8%  | 13% | 39%  |
+| 4  | -21% | 1%  | 8%  | 13% | 39%  |
+| 5  | -13% | 2%  | 7%  | 12% | 33%  |
+| 6  | -10% | 2%  | 7%  | 11% | 31%  |
+| 7  | -8%  | 3%  | 7%  | 11% | 25%  |
+| 10 | -6%  | 4%  | 7%  | 11% | 20%  |
+| 15 | -2%  | 4%  | 7%  | 10% | 16%  |
+| 20 | 0%   | 5%  | 7%  | 9%  | 14%  |
+| 30 | 2%   | 5%  | 7%  | 8%  | 11%  |
+
 Another way to look at the uncertainty of returns over different time horizons is to look at the uncertainty of the annualized return.
 
 If a $1000 investment grew to $1200 over 3 years, that means it returned 20% over 3 years.
@@ -37,13 +51,13 @@ In other words, if each of the three years had the same annual return, what woul
 The answer is called the **annualized return** or **CAGR** (**C**umulative **A**nnual **G**rowth **R**ate).
 
 As you can see, the distribution of annualized returns gets tighter as the number of years invested increases.
-This is one reason for the "stocks for the long-term" adage: historically, the longer a stock fund was held, the lower the variance of its historical annual returns[^1].
+This is one reason for the "stocks for the long-term" adage: historically, the longer a stock fund was held, the lower the variance of its historical annual returns[^2].
 
-### Loss Probability
+### Historical Loss Rate
 
-import LossProbability from './loss_probability.svg';
+import LossRate from './loss_rate.svg';
 
-<LossProbability />
+<LossRate/>
 
 This graph shows the percentage of historical returns for a given time horizon that resulted in losing money after that time period. It shows that, historically at least, the longer the stock investment was held the less likely it was to end in a loss. This is another argument in favor of "stocks for the long-term."
 
@@ -57,6 +71,7 @@ The historical data suggest that the longer a stock fund is held, the less likel
 
 [Code used to generate this post](https://github.com/stenagli/stevenatenaglia/tree/main/src/content/finance/investing)
 
-[^1]: Note that this is not the same as saying that because you've held a stock fund for 29 years you can be very confident the 30th year's return will be within a tight margin -- that would be a 1-year return, which the graph correctly shows has high variance.
+[^1]: Returns shown are real (inflation-adjusted), using Shiller's Real Total Return Price series.
+[^2]: Note that this is not the same as saying that because you've held a stock fund for 29 years you can be very confident the 30th year's return will be within a tight margin -- that would be a 1-year return, which the graph correctly shows has high variance.
 The takeaway is future-looking: if you plan on investing over 30 years, you can look at the 30 year values to get a sense of the distribution of historical annual returns over that time.
 After 15 years, you have 15 years of future investing, so you should look at the 15 years invested values which show the distribution of historical returns over 15 years to help you get a sense of what you might expect over the next 15 years, etc.

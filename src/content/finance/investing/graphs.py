@@ -61,7 +61,7 @@ def make_svg_responsive(filename):
 
 # Create the funnel chart
 plot_percentiles(plt, df_cagr)
-plt.title('Time Horizon Funnel: 150+ Years S&P 500 Returns', fontsize=16, fontweight='bold')
+plt.title('Annualized Return by Years Invested', fontsize=16, fontweight='bold')
 plt.xlabel('Years Invested', fontsize=12)
 plt.ylabel('Annualized Return (CAGR %)', fontsize=12)
 plt.legend()
@@ -69,14 +69,15 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.savefig('cagr_funnel.svg', format='svg', bbox_inches='tight')
 make_svg_responsive('cagr_funnel.svg')
+print(df_cagr.to_string())
 
 
 # Terminal Fan
 plot_percentiles(plt, df_terminal)
 
-plt.title('Terminal Wealth Fan (Starting from $1)', fontsize=16, fontweight='bold')
+plt.title('Growth of $1 Invested in the S&P 500', fontsize=16, fontweight='bold')
 plt.xlabel('Years Invested', fontsize=12)
-plt.ylabel('Final Wealth Multiple', fontsize=12)
+plt.ylabel('Final Value ($) ', fontsize=12)
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
@@ -84,14 +85,14 @@ plt.savefig('terminal_wealth_fan.svg', format='svg', bbox_inches='tight')
 make_svg_responsive('terminal_wealth_fan.svg')
 
 
-# Loss Probability
+# Loss Rate 
 plt.figure(figsize=(10, 6))
 plt.plot(df_loss.index, df_loss.values * 100, marker='o', linewidth=3)
 
-plt.title('Probability of Ending with a Loss', fontsize=16, fontweight='bold')
+plt.title('Percentage of Historical Periods Ending in a Loss', fontsize=16, fontweight='bold')
 plt.xlabel('Years Invested', fontsize=12)
-plt.ylabel('Probability of Loss (%)', fontsize=12)
+plt.ylabel('Historical Loss Rate (%)', fontsize=12)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
-plt.savefig('loss_probability.svg', format='svg', bbox_inches='tight')
-make_svg_responsive('loss_probability.svg')
+plt.savefig('loss_rate.svg', format='svg', bbox_inches='tight')
+make_svg_responsive('loss_rate.svg')
