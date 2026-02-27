@@ -1,10 +1,8 @@
 ---
+import BaseLayout from '@layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import BaseHead from '@components/BaseHead.astro';
-import Footer from '@components/Footer.astro';
 import FormattedDate from '@components/FormattedDate.astro';
-import Header from '@components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '@consts';
 
 const posts = (await getCollection('content')).sort(
@@ -12,50 +10,42 @@ const posts = (await getCollection('content')).sort(
 );
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-    <main class="max-w-4xl mx-auto px-4 py-12">
-      <section>
-        <ul class="space-y-10">
-          {
-            posts.map((post) => (
-              <li>
-                <a 
-                  href={post.id} 
-                  class="group block rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-                >
-                  {post.data.heroImage && (
-                    <Image 
-                      width={720} 
-                      height={360} 
-                      src={post.data.heroImage} 
-                      alt="" 
-                      class="w-full h-48 object-cover group-hover:scale-[1.02] transition-transform"
-                    />
-                  )}
-                  <div class="p-5">
-                    <h2 class="text-2xl font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
-                      {post.data.title}
-                    </h2>
-                    <p class="mt-1 text-sm text-gray-600">
-                      {post.data.description}
-                    </p>
-                    <p class="mt-2 text-sm text-gray-500">
-                      <FormattedDate date={post.data.pubDate} />
-                    </p>
-                  </div>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-    </main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <section>
+      <ul class="space-y-10">
+        {
+          posts.map((post) => (
+            <li>
+              <a
+                href={post.id}
+                class="group block rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              >
+                {post.data.heroImage && (
+                  <Image
+                    width={720}
+                    height={360}
+                    src={post.data.heroImage}
+                    alt=""
+                    class="w-full h-48 object-cover group-hover:scale-[1.02] transition-transform"
+                  />
+                )}
+                <div class="p-5">
+                  <h2 class="text-2xl font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
+                    {post.data.title}
+                  </h2>
+                  <p class="mt-1 text-sm text-gray-600">
+                    {post.data.description}
+                  </p>
+                  <p class="mt-2 text-sm text-gray-500">
+                    <FormattedDate date={post.data.pubDate} />
+                  </p>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</BaseLayout>
