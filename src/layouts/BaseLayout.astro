@@ -18,7 +18,63 @@ const { title, description } = Astro.props;
   </head>
   <body class="bg-white text-gray-800 antialiased">
     <Header />
-    <slot />
+    <main id="main" class="max-w-3xl mx-auto px-4 py-12">
+      <slot />
+    </main>
     <Footer />
+    <script>
+      const isRelativeUrl = (url: string) =>
+        !url.startsWith('http://') &&
+        !url.startsWith('https://') &&
+        !url.startsWith('//');
+
+      let currentController: AbortController | null = null;
+
+      const navigate = async (pathname: string) => {
+        currentController?.abort();
+        currentController = new AbortController();
+
+        const target = document.getElementById('main');
+        if (!target) throw new Error(`#main not found`);
+
+        try {
+          const response = await fetch(`/partials${pathname}`, {
+            signal: currentController.signal,
+          });
+
+          if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+
+          const temp = document.createElement('template');
+          temp.innerHTML = await response.text();
+          const newTitle = temp.content.querySelector('[data-title]')?.getAttribute('data-title');
+          if (newTitle) document.title = newTitle;
+          target.replaceChildren(...temp.content.childNodes);
+
+          window.scrollTo(0, 0);
+        } catch (error) {
+          if (error instanceof DOMException && error.name === 'AbortError') return;
+          console.error('Navigation failed:', error);
+          window.location.href = pathname;
+        }
+      };
+
+      document.addEventListener('click', async (e) => {
+        const link = (e.target as HTMLElement).closest('a');
+        if (!link) return;
+
+        const href = link.getAttribute('href');
+        if (!href || !isRelativeUrl(href) || link.target) return;
+
+        e.preventDefault();
+
+        const pathname = new URL(link.href).pathname;
+        history.pushState(null, '', pathname);
+        await navigate(pathname);
+      });
+
+      window.addEventListener('popstate', () => {
+        navigate(window.location.pathname);
+      });
+    </script>
   </body>
 </html>

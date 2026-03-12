@@ -1,7 +1,6 @@
 ---
 import { render } from 'astro:content';
 import { getStaticPaths, type Props } from '@lib/content-paths';
-import BaseLayout from '@layouts/BaseLayout.astro';
 import BlogPost from '@layouts/BlogPost.astro';
 
 export { getStaticPaths };
@@ -10,8 +9,6 @@ const post = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
-  <BlogPost {...post.data}>
-    <Content />
-  </BlogPost>
-</BaseLayout>
+<BlogPost {...post.data}>
+	<Content />
+</BlogPost>
