@@ -18,7 +18,9 @@ const { title, description } = Astro.props;
   </head>
   <body class="bg-white text-gray-800 antialiased">
     <Header />
-    <slot />
+    <main id="main" class="max-w-3xl mx-auto px-4 py-12">
+      <slot />
+    </main>
     <Footer />
     <script>
       const isRelativeUrl = (url: string) =>
