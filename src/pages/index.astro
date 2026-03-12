@@ -1,14 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Index from '@components/Index.astro';
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import FormattedDate from '@components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '@consts';
-
-const posts = (await getCollection('content')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
